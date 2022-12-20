@@ -3,17 +3,16 @@ FROM ubuntu:16.04
 LABEL MAINTAINER="Future Internet Consulting and Development Solutions S.L."
 
 ENV VERSION master
+COPY . /business-ecosystem-logic-proxy
 
-RUN apt-get update && apt-get install -y git xinetd python-pip wget curl && \
-    pip install sh requests && \
-    git clone https://github.com/FIWARE-TMForum/business-ecosystem-logic-proxy
+RUN apt-get update && apt-get install -y xinetd python3-pip wget curl && \
+    pip3 install sh requests 
 
 WORKDIR business-ecosystem-logic-proxy
 
 RUN wget https://nodejs.org/dist/v14.16.0/node-v14.16.0-linux-x64.tar.xz && \
     tar -xvf node-v14.16.0-linux-x64.tar.xz && \
     echo 'export PATH=$PATH:/business-ecosystem-logic-proxy/node-v14.16.0-linux-x64/bin' >> ~/.bashrc && \
-    git checkout $VERSION && \
     mkdir indexes && \
     mkdir themes && \
     export USER=root && \
@@ -23,11 +22,11 @@ RUN wget https://nodejs.org/dist/v14.16.0/node-v14.16.0-linux-x64.tar.xz && \
     cp config.js etc/config.js && \
     echo "module.exports = require('./etc/config');" > config.js
 
-COPY ./entrypoint.sh /
-COPY ./cleanIndex.sh /
-COPY ./getConfig.js /business-ecosystem-logic-proxy
+COPY ./docker/entrypoint.sh /
+COPY ./docker/cleanIndex.sh /
+COPY ./docker/getConfig.js /business-ecosystem-logic-proxy
      
-COPY ./serviceIndexes /etc/xinetd.d/
+COPY ./docker/serviceIndexes /etc/xinetd.d/
 
 EXPOSE 8004
 

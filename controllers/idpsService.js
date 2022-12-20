@@ -37,6 +37,7 @@ const idpService = (function() {
                             name: result.name,
                             server: result.server,
                             idpId: result.idpId,
+                            issuerDid: result.issuerDid,
                             description: result.description
                         }
 
@@ -70,6 +71,7 @@ const idpService = (function() {
                             name: item.name,
                             server: item.server,
                             idpId: item.idpId,
+                            issuerDid: item.issuerDid,
                             description: item.description
                         }
                     })
@@ -101,10 +103,15 @@ const idpService = (function() {
 
         try {
             let idp = new idpModel();
+            console.log(data)
             // Add custom fields
             idp.name = data.name;
             idp.idpId = data.idpId;
             idp.server = data.server;
+
+            if (data.issuerDid) {
+                idp.issuerDid = data.issuerDid
+            }
 
             if (data.description) {
                 idp.description = data.description;
@@ -176,6 +183,7 @@ const idpService = (function() {
                         result.name = data.name;
                         result.description = data.description;
                         result.server = data.server;
+                        result.issuerDid = data.issuerDid
 
                         result.save((err) => {
                             if (err) {
