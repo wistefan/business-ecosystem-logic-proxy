@@ -18,7 +18,7 @@ jobs:
         uses: redhat-actions/buildah-build@v2
         with:
           image: biz-ecosystem-logic-proxy
-          tags: ${{ github.sha }} ${{ TARGET_VERSION }}-PRE
+          tags: ${{ github.sha }} ${{ env.TARGET_VERSION }}-PRE
           dockerfiles: |
             ./docker/Dockerfile
           context: ./
