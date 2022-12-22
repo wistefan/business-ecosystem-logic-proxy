@@ -1,14 +1,8 @@
 name: Pre-Release
 
 on:
-  pull_request:
-    types:
-      - opened
-      - synchronize
-      - reopened
-      - labeled
-      - unlabeled
-
+  push:
+    
 env: 
   TARGET_VERSION: 8.1.0
 
